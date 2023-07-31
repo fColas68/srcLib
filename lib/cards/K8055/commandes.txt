@@ -1,0 +1,45 @@
+========== creation du header .h 
+
+javac -h . WK8055.java
+
+
+========== Creation de la bibliotheque partagée .o puis .so
+
+g++ -c -fPIC -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux -I/usr/lib/jvm/java-11-openjdk-amd64/include/  -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/  lib_cards_K8055_WK8055.cpp -o lib_cards_K8055_WK8055.o
+
+g++ -shared -fPIC -o libnative.so lib_cards_K8055_WK8055.o -lc
+
+
+g++ -fPIC -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux -I/usr/lib/jvm/java-11-openjdk-amd64/include/  -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/  lib_cards_K8055_WK8055.cpp -o lib_cards_K8055_WK8055.o -lusb
+
+========== Exec du Java
+
+java -cp . -Djava.library.path=/home/florian/devoloppement/__W__/lib/cards/K8055/  WK8055
+
+java -cp . -Djava.library.path=/home/florian/devoloppement/__W__/lib/cards/K8055/  Test
+
+
+
+
+=================================
+=   Methode pàp creation bibli  =
+=================================
+driver vmk80xx
+
+g++ -c libK8055.cpp -o libK8055.o -lusb
+g++ -o libK8055exe libK8055.o -lusb
+sudo ./libK8055exe
+
+g++ -c -fPIC -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux -I/usr/lib/jvm/java-11-openjdk-amd64/include/  -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux/ lib_cards_K8055_K8055JNI.cpp -o lib_cards_K8055_K8055JNI.o -lusb
+
+g++ -shared  -o libK8055JNI.so lib_cards_K8055_K8055JNI.o
+
+
+=================================
+=  Compilation et Exéc du Test  =
+=================================
+javac Test_lib_cards_K8055_K8055JNI
+sudo java -cp . -Djava.library.path=/home/florian/devoloppement/ !!!...!!! /lib/cards/K8055/  Test_lib_cards_K8055_K8055JNI
+
+
+
